@@ -1,7 +1,4 @@
 <template>
-<nav>
-    <a href="#">Home</a>
-</nav>
 </template>
 
 <script>
@@ -25,6 +22,11 @@ a {
   color: inherit;
   font-family: inherit;
   font-size: 1.5rem;
+  margin-left: 20px;
+}
+
+a:first {
+  margin-left: 0;
 }
 
 a:hover {

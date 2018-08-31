@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <masterlink></masterlink>
     <list></list>
   </div>
 </template>
@@ -12,7 +11,6 @@ import List from "./components/List";
 export default {
   name: "App",
   components: {
-    Masterlink,
     List
   }
 };
@@ -25,6 +23,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

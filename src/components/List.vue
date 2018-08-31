@@ -1,53 +1,53 @@
 <template>
-<table :class="tableClass">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Username</th>
-      <th>Email</th>
-      <th>Address</th>
-      <th>Website</th>
-      <th>Company Name</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr :key="user.id" v-for="user in objUser">
-      <!-- User Id -->
-      <td>{{user.id}}</td>
+  <table :class="tableClass">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th>Website</th>
+        <th>Company Name</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr :key="user.id" v-for="(user, i) in objUser">
+        <!-- User Id -->
+        <td>{{user.id}}</td>
 
-      <!-- Username -->
-      <td v-if="editRow === user.id"><input type="text" v-model="user.username"></td>
-      <td v-else>{{user.username}}</td>
+        <!-- Username -->
+        <td v-if="editRow === user.id"><input type="text" v-model="user.username"></td>
+        <td v-else>{{user.username}}</td>
 
-      <!-- Email -->
-      <td v-if="editRow === user.id"><input type="text" v-model="user.email"></td>
-      <td v-else>{{user.email}}</td>
+        <!-- Email -->
+        <td v-if="editRow === user.id"><input type="text" v-model="user.email"></td>
+        <td v-else>{{user.email}}</td>
 
-      <!-- Address -->
-      <td v-if="editRow === user.id">
-        <input type="text" v-model="user.address.street">
-        <input type="text" v-model="user.address.city">
-      </td>
-      <td v-else>{{fullAddress(user.address.street, user.address.city)}}</td>
+        <!-- Address -->
+        <td v-if="editRow === user.id">
+          <input type="text" v-model="user.address.street">
+          <input type="text" v-model="user.address.city">
+        </td>
+        <td v-else>{{fullAddress(user.address.street, user.address.city)}}</td>
 
-      <!-- Website -->
-      <td v-if="editRow === user.id"><input type="text" v-model="user.website"></td>
-      <td v-else>{{user.website}}</td>
+        <!-- Website -->
+        <td v-if="editRow === user.id"><input type="text" v-model="user.website"></td>
+        <td v-else>{{user.website}}</td>
 
-      <!-- Company Name -->
-      <td v-if="editRow === user.id"><input type="text" v-model="user.company.name"></td>
-      <td v-else>{{user.company.name}}</td>
+        <!-- Company Name -->
+        <td v-if="editRow === user.id"><input type="text" v-model="user.company.name"></td>
+        <td v-else>{{user.company.name}}</td>
 
-      <!-- Action button -->
-      <td v-if="editRow === user.id"><button class="btnUpdate" v-on:click="sendUpdate(user)">Update</button></td>
-      <td v-else>
-        <button class="btnEdit" v-on:click="editRow = user.id">Edit</button>
-        <button class="btnDelete" v-on:click="sendDelete(user.id)">Delete</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+        <!-- Action button -->
+        <td v-if="editRow === user.id"><button class="btnUpdate" v-on:click="sendUpdate(user)">Update</button></td>
+        <td v-else>
+          <button class="btnEdit" v-on:click="editRow = user.id">Edit</button>
+          <button class="btnDelete" v-on:click="sendDelete(user.id, i)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <script>
@@ -58,7 +58,8 @@ export default {
       tableClass: "table",
       objUser: [],
       editRow: "",
-      columnClass: "editMode"
+      columnClass: "editMode",
+      loading: false
     };
   },
   methods: {
@@ -75,22 +76,36 @@ export default {
         body: JSON.stringify(row)
       })
         .then(response => {
-          return response.json();
+          if (!response.ok) {
+            throw Error(response.status);
+          } else {
+            return response.json();
+          }
         })
         .then(data => {
           alert("Updated for user " + data.username);
+        })
+        .catch(error => {
+          alert(error);
         });
     },
-    sendDelete(id) {
+    sendDelete(id, i) {
       this.editRow = "";
       fetch("https://jsonplaceholder.typicode.com/users/" + id, {
         method: "DELETE"
       })
         .then(response => {
-          return response;
+          if (!response.ok) {
+            throw Error(response.status);
+          } else {
+            return response.json();
+          }
         })
         .then(data => {
-          console.log("Deleted!");
+          this.objUser.splice(i, 1);
+        })
+        .catch(error => {
+          alert(error);
         });
     }
   },
@@ -103,7 +118,6 @@ export default {
       })
       .then(data => {
         this.objUser = data;
-        console.log(this.objUser);
       });
   }
 };
@@ -111,8 +125,25 @@ export default {
 
 <style scoped>
 .table {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+
   width: 100%;
+  min-width: 600px;
+  max-width: 100vw;
   border-collapse: collapse;
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+@media (min-width: 998px) {
+  .table {
+    display: table;
+  }
 }
 
 .table thead {
@@ -146,6 +177,10 @@ export default {
   border-radius: 4px;
 }
 
+.table .btnEdit:active {
+  background-color: #35976b;
+}
+
 .table .btnUpdate {
   background-color: #ffca28;
   border: 0;
@@ -155,6 +190,10 @@ export default {
   border-radius: 4px;
 }
 
+.table .btnUpdate {
+  background-color: #e6ac00;
+}
+
 .table .btnDelete {
   background-color: #c0392b;
   border: 0;
@@ -162,6 +201,10 @@ export default {
   margin: 4px 0;
   color: #fefefe;
   border-radius: 4px;
+}
+
+.table .btnDelete:active {
+  background-color: #912c21;
 }
 </style>
 
