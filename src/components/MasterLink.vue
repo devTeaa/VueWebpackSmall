@@ -23,7 +23,7 @@ nav {
 a {
   text-decoration: none;
   color: inherit;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: inherit;
   font-size: 1.5rem;
 }
 
