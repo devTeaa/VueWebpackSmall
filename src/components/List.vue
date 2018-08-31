@@ -155,6 +155,7 @@ export default {
 }
 
 .table input {
+  display: block;
   width: 100%;
 }
 
