@@ -1,16 +1,18 @@
 <template>
   <div id="app">
+    <masterlink></masterlink>
     <list></list>
   </div>
 </template>
 
 <script>
-import Hello from "./components/Hello";
+import Masterlink from "./components/MasterLink";
 import List from "./components/List";
 
 export default {
   name: "App",
   components: {
+    Masterlink,
     List
   }
 };
