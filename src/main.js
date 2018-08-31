@@ -6,6 +6,9 @@ import App from "./App";
 import Hello from "./components/Hello";
 import List from "./components/List";
 
+import "./assets/css/navigation.css";
+import "./assets/css/button.css";
+
 Vue.config.productionTip = true;
 Vue.use(VueRouter);
 

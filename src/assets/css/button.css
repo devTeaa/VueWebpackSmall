@@ -1,0 +1,36 @@
+.btnGreen,
+.btnYellow,
+.btnRed {
+  border: 0;
+  padding: 8px 12px;
+  margin: 4px 0;
+  color: #fefefe;
+  border-radius: 4px;
+}
+
+.btnGreen {
+  background-color: #41b883;
+  color: #fefefe;
+}
+
+.btnGreen:active {
+  background-color: #35976b;
+}
+
+.btnYellow {
+  background-color: #ffca28;
+  color: #fefefe;
+}
+
+.btnYellow:active {
+  background-color: #e6ac00;
+}
+
+.btnRed {
+  background-color: #c0392b;
+  color: #fefefe;
+}
+
+.btnRed:active {
+  background-color: #912c21;
+}

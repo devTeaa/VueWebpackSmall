@@ -40,10 +40,10 @@
         <td v-else>{{user.company.name}}</td>
 
         <!-- Action button -->
-        <td v-if="editRow === user.id"><button class="btnUpdate" v-on:click="sendUpdate(user)">Update</button></td>
+        <td v-if="editRow === user.id"><button class="btnYellow" v-on:click="sendUpdate(user)">Update</button></td>
         <td v-else>
-          <button class="btnEdit" v-on:click="editRow = user.id">Edit</button>
-          <button class="btnDelete" v-on:click="sendDelete(user.id, i)">Delete</button>
+          <button class="btnGreen" v-on:click="editRow = user.id">Edit</button>
+          <button class="btnRed" v-on:click="sendDelete(user.id, i)">Delete</button>
         </td>
       </tr>
     </tbody>
@@ -161,45 +161,6 @@ export default {
 
 .table tbody .editMode {
   padding: 2px;
-}
-
-.table .btnEdit {
-  background-color: #41b883;
-  border: 0;
-  padding: 8px 12px;
-  margin: 4px 0;
-  color: #fefefe;
-  border-radius: 4px;
-}
-
-.table .btnEdit:active {
-  background-color: #35976b;
-}
-
-.table .btnUpdate {
-  background-color: #ffca28;
-  border: 0;
-  padding: 8px 12px;
-  margin: 4px 0;
-  color: #fefefe;
-  border-radius: 4px;
-}
-
-.table .btnUpdate {
-  background-color: #e6ac00;
-}
-
-.table .btnDelete {
-  background-color: #c0392b;
-  border: 0;
-  padding: 8px 12px;
-  margin: 4px 0;
-  color: #fefefe;
-  border-radius: 4px;
-}
-
-.table .btnDelete:active {
-  background-color: #912c21;
 }
 </style>
 
